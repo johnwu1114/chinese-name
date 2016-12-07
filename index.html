@@ -1,0 +1,123 @@
+﻿<html>
+<head>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="index.js"></script>
+    <meta charset="utf-8">
+    <title>新生取名</title>
+    <style>
+        tr {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    姓<input id="familyName" value="" maxlength="1" style="width: 50px;" />
+    <select id="zodiac">
+        <option value="Horse">馬</option>
+        <option value="Goat">羊</option>
+        <option value="Monkey" selected="selected">猴</option>
+        <option value="Rooster">雞</option>
+    </select>
+    <select class="item">
+        <option>請選擇</option>
+    </select>
+    <br /><br />
+    <table border="1">
+        <tr>
+            <th style="width: 100px;">欄位</th>
+            <th>解說</th>
+        </tr>
+        <tr>
+            <td>姓<span class="familyNameDrawCount"></span></td>
+            <td><span class="familyName"></span></td>
+        </tr>
+        <tr>
+            <td>名<span class="giveNameDrawCount1" /></td>
+            <td>
+                <span class="giveName1" />
+            </td>
+        </tr>
+        <tr>
+            <td>名<span class="giveNameDrawCount2" /></td>
+            <td>
+                <span class="giveName2" />
+            </td>
+        </tr>
+        <tr>
+            <td>天格<span class="topFiveElement" /></td>
+            <td>
+                <span class="topContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>人格<span class="middleFiveElement" /></td>
+            <td>
+                <span class="middleContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>地格<span class="bottomFiveElement" /></td>
+            <td>
+                <span class="bottomContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>外格<span class="outFiveElement" /></td>
+            <td>
+                <span class="outContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>總格<span class="allFiveElement" /></td>
+            <td>
+                <span class="allContent" />
+            </td>
+        </tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+            <tr>
+                <td valign="center" align="middle" width="60">
+                    外格<br>
+                    <span class="outFiveElement"></span>
+                </td>
+                <td valign="top" align="left" width="20">
+                    ┌<br>
+                    │<br>
+                    │<br>
+                    ┤<br>
+                    │<br>
+                    │<br>
+                    └
+                </td>
+                <td valign="top" align="left" width="45">
+                    (1)<br>
+                    <br>
+                    <span class="familyName"></span><span class="familyNameDrawCount"></span>
+                    <br>
+                    <br>
+                    (3) <span class="giveNameDrawCount1"></span>
+                    <br>
+                    <br>
+                    (4) <span class="giveNameDrawCount2"></span>
+                </td>
+                <td valign="top" align="left" width="100">
+                    ┐<br>
+                    ├天格<span class="topFiveElement"></span><br>
+                    ┤<br>
+                    ├人格<span class="middleFiveElement"></span><br>
+                    ┤<br>
+                    ├地格<span class="bottomFiveElement"></span><br>
+                    ┘
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" align="middle" colspan="4">
+                    ______________<br>
+                    <span class="allFiveElement"></span>
+                    <br>
+                    總格
+                </td>
+            </tr>
+        </tbody>
+    </table>
