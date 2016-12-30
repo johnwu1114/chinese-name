@@ -1,8 +1,4 @@
-﻿/*****
-  周易文字筆劃五行
-  ref: http://welkinchen.pixnet.net/blog/post/17664717-%E5%AF%B6%E5%AF%B6%E5%8F%96%E5%90%8D_%E5%91%A8%E6%98%93%E6%96%87%E5%AD%97%E7%AD%86%E5%8A%83%E4%BA%94%E8%A1%8C%E5%B1%AC%E6%80%A7%E5%AD%97%E5%85%B8
-*****/
-[
+﻿[
   {
     "draw": 1,
     "fiveEle": "火",
