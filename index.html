@@ -1,12 +1,28 @@
 ﻿<html>
 <head>
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="index.js"></script>
     <meta charset="utf-8">
     <title>新生兒取名</title>
     <style>
+        table.description {
+            width: 98%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+            table.description td, table.description th {
+                border: 1px solid #aaa;
+            }
+
+                table.description td:first-child {
+                    width: 120px;
+                }
+
         tr {
             height: 50px;
+        }
+
+        .hide {
+            display: none;
         }
     </style>
 </head>
@@ -18,68 +34,17 @@
         <option value="Monkey" selected="selected">猴</option>
         <option value="Rooster">雞</option>
     </select>
-    <select class="item">
+    <select id="combination">
         <option>請選擇</option>
     </select>
     <br /><br />
-    <table border="1">
-        <tr>
-            <th style="width: 100px;">欄位</th>
-            <th>解說</th>
-        </tr>
-        <tr>
-            <td>姓<span class="familyNameDrawCount"></span></td>
-            <td><span class="familyName"></span></td>
-        </tr>
-        <tr>
-            <td>名<span class="giveNameDrawCount1" /></td>
-            <td>
-                <span class="giveName1" />
-            </td>
-        </tr>
-        <tr>
-            <td>名<span class="giveNameDrawCount2" /></td>
-            <td>
-                <span class="giveName2" />
-            </td>
-        </tr>
-        <tr>
-            <td>天格<span class="topFiveElement" /></td>
-            <td>
-                <span class="topContent" />
-            </td>
-        </tr>
-        <tr>
-            <td>人格<span class="middleFiveElement" /></td>
-            <td>
-                <span class="middleContent" />
-            </td>
-        </tr>
-        <tr>
-            <td>地格<span class="bottomFiveElement" /></td>
-            <td>
-                <span class="bottomContent" />
-            </td>
-        </tr>
-        <tr>
-            <td>外格<span class="outFiveElement" /></td>
-            <td>
-                <span class="outContent" />
-            </td>
-        </tr>
-        <tr>
-            <td>總格<span class="allFiveElement" /></td>
-            <td>
-                <span class="allContent" />
-            </td>
-        </tr>
-    </table>
+
     <table cellspacing="0" cellpadding="0" border="0">
         <tbody>
             <tr>
                 <td valign="center" align="middle" width="60">
                     外格<br>
-                    <span class="outFiveElement"></span>
+                    <span class="out5e"></span>
                 </td>
                 <td valign="top" align="left" width="20">
                     ┌<br>
@@ -96,30 +61,165 @@
                     <span class="familyName"></span><span class="familyNameDrawCount"></span>
                     <br>
                     <br>
-                    (3) <span class="giveNameDrawCount1"></span>
+                    <span class="giveNameDrawCount1"></span>
                     <br>
                     <br>
-                    (4) <span class="giveNameDrawCount2"></span>
+                    <span class="giveNameDrawCount2"></span>
                 </td>
                 <td valign="top" align="left" width="100">
                     ┐<br>
-                    ├天格<span class="topFiveElement"></span><br>
+                    ├天格<span class="top5e"></span><br>
                     ┤<br>
-                    ├人格<span class="middleFiveElement"></span><br>
+                    ├人格<span class="middle5e"></span><br>
                     ┤<br>
-                    ├地格<span class="bottomFiveElement"></span><br>
+                    ├地格<span class="bottom5e"></span><br>
                     ┘
                 </td>
             </tr>
             <tr>
                 <td valign="top" align="middle" colspan="4">
                     ______________<br>
-                    <span class="allFiveElement"></span>
+                    <span class="total5e"></span>
                     <br>
                     總格
                 </td>
             </tr>
         </tbody>
     </table>
+    <table class="description">
+        <tr>
+            <th>欄位</th>
+            <th colspan="2">解說</th>
+        </tr>
+        <tr>
+            <td>姓 筆劃:<span class="familyNameDrawCount"></span></td>
+            <td colspan="2"><span class="familyName"></span></td>
+        </tr>
+        <tr>
+            <td rowspan="3">
+                名(第一字)<br>
+                筆劃:<span class="giveNameDrawCount1"></span>
+            </td>
+            <td>生肖喜用</td>
+            <td>
+                <span class="giveName1_better" />
+            </td>
+        </tr>
+        <tr>
+            <td>不喜不忌 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
+            <td>
+                <span class="giveName1_normal hide" />
+            </td>
+        </tr>
+        <tr>
+            <td>生肖忌用 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
+            <td>
+                <span class="giveName1_worse hide" />
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3">
+                名(第二字)<br>
+                筆劃:<span class="giveNameDrawCount2"></span>
+            </td>
+            <td>生肖喜用</td>
+            <td>
+                <span class="giveName2_better" />
+            </td>
+        </tr>
+        <tr>
+            <td>不喜不忌 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
+            <td>
+                <span class="giveName2_normal hide" />
+            </td>
+        </tr>
+        <tr>
+            <td>生肖忌用 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
+            <td>
+                <span class="giveName2_worse hide" />
+            </td>
+        </tr>
+    </table>
+    <table class="description">
+        <tr><th colspan="3">三才姓名學</th></tr>
+        <tr>
+            <td>
+                <span class="sancai"></span>
+            </td>
+            <td style="width:100px;">
+                <span class="sancaiGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="sancaiContent" />
+            </td>
+        </tr>
+    </table>
+    <table class="description">
+        <tr><th colspan="3">五格姓名學</th></tr>
+        <tr>
+            <td>
+                天格(<span class="topDrawCount"></span>劃) <span class="top5e"></span>
+            </td>
+            <td style="width:100px;">
+                <span class="topGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="topContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                人格(<span class="middleDrawCount"></span>劃) <span class="middle5e"></span>
+            </td>
+            <td>
+                <span class="middleGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="middleContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                地格(<span class="bottomDrawCount"></span>劃) <span class="bottom5e"></span>
+            </td>
+            <td>
+                <span class="bottomGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="bottomContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                外格(<span class="outDrawCount"></span>劃) <span class="out5e"></span>
+            </td>
+            <td>
+                <span class="outGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="outContent" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                總格(<span class="totalDrawCount"></span>劃) <span class="total5e"></span>
+            </td>
+            <td>
+                <span class="totalGoodOrbad"></span>
+            </td>
+            <td>
+                <span class="totalContent" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+    可參考其他App<br />
+    (iPhone): <a href="https://itunes.apple.com/tw/app/qi-ming-jie-ming-bb-qu-ming/id598551046?l=zh">起名解名</a><br />
+    (Android): <a href="https://play.google.com/store/apps/details?id=oms.mmc.fortunetelling.measuringtools.gmpay.nametest&hl=zh_TW">起名解名</a><br />
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
