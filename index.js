@@ -27,6 +27,7 @@ $(function () {
                 return 1;
             if (a.bottom < b.bottom)
                 return -1;
+
             return -1;
         });
 
@@ -108,8 +109,8 @@ $(function () {
         }
     });
 
-    //$.get($api_url + "ChineseCharacters.json", function (data) {
-    $.get($api_url + "KangXi.json", function (data) {
+    $.get($api_url + "ChineseCharacters.json", function (data) {
+    //$.get($api_url + "KangXi.json", function (data) {
         $chineseCharacters = data;
     });
 

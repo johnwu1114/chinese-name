@@ -24,20 +24,42 @@
         .hide {
             display: none;
         }
+        form div{
+            margin:5px;
+        }
     </style>
 </head>
 <body>
-    姓<input id="familyName" value="" maxlength="1" style="width: 50px;" />
-    <select id="zodiac">
-        <option value="Horse">馬</option>
-        <option value="Goat">羊</option>
-        <option value="Monkey" selected="selected">猴</option>
-        <option value="Rooster">雞</option>
-    </select>
-    <select id="combination">
-        <option>請選擇</option>
-    </select>
-    <br /><br />
+    <form>
+        <div>
+            <label>姓氏</label>
+            <input id="familyName" value="" maxlength="1" style="width: 50px;" />
+        </div>
+        <div>
+            <label>生肖</label>
+            <select id="zodiac" style="width: 50px;">
+                <option value="1_rat">鼠</option>
+                <option value="2_ox">牛</option>
+                <option value="3_tiger">虎</option>
+                <option value="4_rabbit">兔</option>
+                <option value="5_dragon">龍</option>
+                <option value="6_snake">蛇</option>
+                <option value="7_horse">馬</option>
+                <option value="8_goat">羊</option>
+                <option value="9_monkey">猴</option>
+                <option value="10_rooster" selected="selected">雞</option>
+                <option value="11_dog">狗</option>
+                <option value="12_pig">豬</option>
+            </select>
+        </div>
+        <div>
+            <label>分數</label>
+            <select id="combination">
+                <option>請選擇</option>
+            </select>
+        </div>
+    </form>
+    <br />
 
     <table cellspacing="0" cellpadding="0" border="0">
         <tbody>
