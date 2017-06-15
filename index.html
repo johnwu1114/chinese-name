@@ -1,35 +1,47 @@
 ﻿<html>
+
 <head>
     <meta charset="utf-8">
     <title>新生兒取名</title>
+
     <style>
+        table.drawCountResult {
+            max-width: 300px;
+        }
+
+        table.drawCountResult td {
+            border: none;
+        }
+
         table.description {
             width: 98%;
             border-collapse: collapse;
             margin: 10px 0;
         }
 
-            table.description td, table.description th {
-                border: 1px solid #aaa;
-            }
+        table.description td,
+        table.description th {
+            border: 1px solid #aaa;
+        }
 
-                table.description td:first-child {
-                    width: 120px;
-                }
+        table.description td:first-child {
+            width: 120px;
+        }
 
         tr {
             height: 50px;
         }
 
-        .hide {
-            display: none;
-        }
-
         form div {
             margin: 5px;
         }
+
+        .hide {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
     <form>
         <div>
@@ -39,29 +51,29 @@
         <div>
             <label>生肖</label>
             <select id="zodiac" style="width: 50px;">
-                <option value="1_rat">鼠</option>
-                <option value="2_ox">牛</option>
-                <option value="3_tiger">虎</option>
-                <option value="4_rabbit">兔</option>
-                <option value="5_dragon">龍</option>
-                <option value="6_snake">蛇</option>
-                <option value="7_horse">馬</option>
-                <option value="8_goat">羊</option>
-                <option value="9_monkey">猴</option>
-                <option value="10_rooster" selected="selected">雞</option>
-                <option value="11_dog">狗</option>
-                <option value="12_pig">豬</option>
-            </select>
+            <option value="1_rat">鼠</option>
+            <option value="2_ox">牛</option>
+            <option value="3_tiger">虎</option>
+            <option value="4_rabbit">兔</option>
+            <option value="5_dragon">龍</option>
+            <option value="6_snake">蛇</option>
+            <option value="7_horse">馬</option>
+            <option value="8_goat">羊</option>
+            <option value="9_monkey">猴</option>
+            <option value="10_rooster" selected="selected">雞</option>
+            <option value="11_dog">狗</option>
+            <option value="12_pig">豬</option>
+        </select>
         </div>
         <div>
             <label>分數</label>
             <select id="combination">
-                <option>請選擇</option>
-            </select>
+            <option>請選擇</option>
+        </select>
         </div>
     </form>
     <br />
-    <table cellspacing="0" cellpadding="0" border="0">
+    <table class="drawCountResult">
         <tbody>
             <tr>
                 <td valign="middle" align="center" width="60">
@@ -78,15 +90,15 @@
                     └
                 </td>
                 <td valign="top" align="left" width="45">
-                    (1)<br>
+                    (1 劃)<br>
                     <br>
-                    <span class="familyName"></span><span class="familyNameDrawCount"></span>
-                    <br>
-                    <br>
-                    <span class="giveNameDrawCount1"></span>
+                    <span class="familyName"></span> <span class="familyNameDrawCount"></span> 劃
                     <br>
                     <br>
-                    <span class="giveNameDrawCount2"></span>
+                    <span class="giveNameDrawCount1"></span> 劃
+                    <br>
+                    <br>
+                    <span class="giveNameDrawCount2"></span> 劃
                 </td>
                 <td valign="top" align="left" width="100">
                     ┐<br>
@@ -107,18 +119,24 @@
         </tbody>
     </table>
     <table class="description">
+        <col width="15%">
+        <col width="15%">
+        <col width="70%">
         <tr>
             <th>欄位</th>
             <th colspan="2">選字</th>
         </tr>
         <tr>
-            <td>姓 筆劃:<span class="familyNameDrawCount"></span></td>
+            <td>
+                姓<br> 筆劃:
+                <span class="familyNameDrawCount"></span>
+            </td>
             <td colspan="2"><span class="familyName"></span></td>
         </tr>
         <tr>
             <td rowspan="3">
-                名(第一字)<br>
-                筆劃:<span class="giveNameDrawCount1"></span>
+                名(第一字)<br> 筆劃:
+                <span class="giveNameDrawCount1"></span>
             </td>
             <td>生肖喜用</td>
             <td>
@@ -139,8 +157,8 @@
         </tr>
         <tr>
             <td rowspan="3">
-                名(第二字)<br>
-                筆劃:<span class="giveNameDrawCount2"></span>
+                名(第二字)<br> 筆劃:
+                <span class="giveNameDrawCount2"></span>
             </td>
             <td>生肖喜用</td>
             <td>
@@ -161,7 +179,12 @@
         </tr>
     </table>
     <table class="description">
-        <tr><th colspan="3">三才姓名學</th></tr>
+        <col width="15%">
+        <col width="15%">
+        <col width="70%">
+        <tr>
+            <th colspan="3">三才姓名學</th>
+        </tr>
         <tr>
             <td>
                 <span class="sancai"></span>
@@ -175,7 +198,12 @@
         </tr>
     </table>
     <table class="description">
-        <tr><th colspan="3">五格姓名學</th></tr>
+        <col width="15%">
+        <col width="15%">
+        <col width="70%">
+        <tr>
+            <th colspan="3">五格姓名學</th>
+        </tr>
         <tr>
             <td>
                 天格(<span class="topDrawCount"></span>劃) <span class="top5e"></span>
@@ -232,13 +260,13 @@
             </td>
         </tr>
     </table>
-    <br />
+   <br />
     <br />
     參考：<br />
     周易文字筆劃五行 <a href="http://www.ivantsoi.com/wuxingzi.htm" target="_blank">http://www.ivantsoi.com/wuxingzi.htm</a><br />
     十二生肖姓名學 <a href="http://www.131.com.tw/word/b1_4.htm" target="_blank">http://www.131.com.tw/word/b1_4.htm</a><br />
     81數理姓名學 <a href="http://www.chaostec.com/destiny.htm" target="_blank">http://www.chaostec.com/destiny.htm</a><br />
-    ﻿五行三才姓名學 <a href="http://numerologys.net/index.php/三才姓名學" target="_blank">http://numerologys.net/index.php/三才姓名學</a><br />
+    五行三才姓名學 <a href="http://numerologys.net/index.php/三才姓名學" target="_blank">http://numerologys.net/index.php/三才姓名學</a><br />
     <br />
     <br />
     選字完成後，可用其他免費 App 驗證：
@@ -247,4 +275,5 @@
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="index.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
-var $api_url = "https://johnwu1114.github.io/ChineseName/";
-var $quality = 80;
+var $api_url = "https://johnwu1114.github.io/chinese-name/";
+var $quality = 75;
 var $pickWords = [];
 var $chineseCharacters;
 var $sancaiKey = ["水", "木", "木", "火", "火", "土", "土", "金", "金", "水"];
