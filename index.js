@@ -86,12 +86,25 @@ $(function () {
                     }
                 }
             }
-
             $(".giveName1_normal").html(getWordsOf5E(normal));
+
 
             $(".giveNameDrawCount2").html(val.bottom);
             $(".giveName2_better").html(getWordsOf5E(data.better["_" + val.bottom]));
             $(".giveName2_worse").html(getWordsOf5E(data.worse["_" + val.bottom]));
+            var normal = "";
+            for (var key in $chineseCharacters) {
+                if ($chineseCharacters[key].draw === val.bottom) {
+                    var chars = $chineseCharacters[key].chars;
+                    var i = chars.length;
+                    while (i--) {
+                        if ((!data.better["_" + val.bottom] || data.better["_" + val.bottom].indexOf(chars[i]) == -1)
+                         && (!data.worse["_" + val.bottom] || data.worse["_" + val.bottom].indexOf(chars[i]) == -1))
+                            normal += chars[i];
+                    }
+                }
+            }
+            $(".giveName2_normal").html(getWordsOf5E(normal));
         });
     });
 
