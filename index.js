@@ -33,7 +33,8 @@ $(function () {
 
         for (key in results) {
             var item = results[key];
-            var str = "適合筆畫: " + item.top + ", " + item.middle + ", " + item.bottom + " " + "(綜合分數:" + item.value + ")";
+           //var str = "適合筆畫: " + item.top + ", " + item.middle + ", " + item.bottom + " " + "(綜合分數:" + item.value + ")";
+            var str = "適合筆畫: " + item.top + ", " + item.middle + ", " + item.bottom;
             $("#combination").append($("<option></option>").attr("value", JSON.stringify(item)).text(str));
         }
     });
