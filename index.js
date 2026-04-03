@@ -1,10 +1,10 @@
-var $api_url = "https://johnwu1114.github.io/chinese-name/";
-var $quality = 75;
-var $pickWords = [];
-var $chineseCharacters;
-var $sancaiKey = ["水", "木", "木", "火", "火", "土", "土", "金", "金", "水"];
-var $sancai;
-var $81;
+var API_URL = "https://johnwu1114.github.io/chinese-name/";
+var QUALITY_THRESHOLD = 75;
+var selectedChars = [];
+var charDictionary;
+var SANCAI_ELEMENTS = ["水", "木", "木", "火", "火", "土", "土", "金", "金", "水"];
+var sancaiTable;
+var eightyOneMap;
 
 $(function () {
     $(this).on("change", "#familyName", function () {
@@ -42,17 +42,17 @@ $(function () {
         if ($(this).val() == "") return;
         var val = $.parseJSON($(this).val());
 
-        $pickWords = [];
-        for (var key in $chineseCharacters) {
-            if ($chineseCharacters[key].draw == val.middle
-            || $chineseCharacters[key].draw == val.bottom)
-                $pickWords.push($chineseCharacters[key]);
+        selectedChars = [];
+        for (var key in charDictionary) {
+            if (charDictionary[key].draw == val.middle
+            || charDictionary[key].draw == val.bottom)
+                selectedChars.push(charDictionary[key]);
         }
         var draw = 0;
 
         $(".sancai").html(val.key);
-        $(".sancaiGoodOrbad").html($sancai[val.key].text);
-        $(".sancaiContent").html($sancai[val.key].content);
+        $(".sancaiGoodOrbad").html(sancaiTable[val.key].text);
+        $(".sancaiContent").html(sancaiTable[val.key].content);
 
         draw = val.top + 1;
         renderResult("top", draw);
@@ -69,15 +69,15 @@ $(function () {
         draw = val.top + val.middle + val.bottom;
         renderResult("total", draw);
 
-        $.get($api_url + $("#zodiac").val() + ".json", function (data) {
+        $.get(API_URL + $("#zodiac").val() + ".json", function (data) {
             $(".giveNameDrawCount1").html(val.middle);
             $(".giveName1_better").html(getWordsOf5E(data.better["_" + val.middle]));
             $(".giveName1_worse").html(getWordsOf5E(data.worse["_" + val.middle]));
 
             var normal = "";
-            for (var key in $chineseCharacters) {
-                if ($chineseCharacters[key].draw === val.middle) {
-                    var chars = $chineseCharacters[key].chars;
+            for (var key in charDictionary) {
+                if (charDictionary[key].draw === val.middle) {
+                    var chars = charDictionary[key].chars;
                     var i = chars.length;
                     while (i--) {
                         if ((!data.better["_" + val.middle] || data.better["_" + val.middle].indexOf(chars[i]) == -1)
@@ -93,9 +93,9 @@ $(function () {
             $(".giveName2_better").html(getWordsOf5E(data.better["_" + val.bottom]));
             $(".giveName2_worse").html(getWordsOf5E(data.worse["_" + val.bottom]));
             var normal = "";
-            for (var key in $chineseCharacters) {
-                if ($chineseCharacters[key].draw === val.bottom) {
-                    var chars = $chineseCharacters[key].chars;
+            for (var key in charDictionary) {
+                if (charDictionary[key].draw === val.bottom) {
+                    var chars = charDictionary[key].chars;
                     var i = chars.length;
                     while (i--) {
                         if ((!data.better["_" + val.bottom] || data.better["_" + val.bottom].indexOf(chars[i]) == -1)
@@ -122,19 +122,19 @@ $(function () {
         }
     });
 
-    $.get($api_url + "ChineseCharacters.json", function (data) {
-    //$.get($api_url + "KangXi.json", function (data) {
-        $chineseCharacters = data;
+    $.get(API_URL + "ChineseCharacters.json", function (data) {
+    //$.get(API_URL + "KangXi.json", function (data) {
+        charDictionary = data;
     });
 
-    $.get($api_url + "Sancai.json", function (data) {
-        $sancai = data;
+    $.get(API_URL + "Sancai.json", function (data) {
+        sancaiTable = data;
     });
 
-    $.get($api_url + "EightyOne.json", function (data) {
-        $81 = {};
+    $.get(API_URL + "EightyOne.json", function (data) {
+        eightyOneMap = {};
         for (var key in data) {
-            $81[data[key].draw] = data[key];
+            eightyOneMap[data[key].draw] = data[key];
         }
     });
 });
@@ -142,21 +142,21 @@ $(function () {
 function renderResult(type, draw) {
     $("." + type + "DrawCount").html(draw);
     $("." + type + "5e").html(get5EColor((draw) % 10));
-    $("." + type + "GoodOrbad").html($81[draw].text);
+    $("." + type + "GoodOrbad").html(eightyOneMap[draw].text);
     $("." + type + "Content").html(get81Content(draw));
 }
 
 function get81Content(draw) {
-    return $81[draw].content;
+    return eightyOneMap[draw].content;
 }
 
 function getWordsOf5E(chars) {
     var arr = [];
     if (chars) {
         for (var i = 0; i < chars.length; i++) {
-            for (var key in $pickWords) {
-                if ($pickWords[key].chars.indexOf(chars[i]) != -1) {
-                    arr.push(chars[i] + get5EColor($pickWords[key].fiveEle));
+            for (var key in selectedChars) {
+                if (selectedChars[key].chars.indexOf(chars[i]) != -1) {
+                    arr.push(chars[i] + get5EColor(selectedChars[key].fiveEle));
                 }
             }
         }
@@ -193,35 +193,35 @@ function getCombinations(familyName) {
     var topDrawCount = 0;
     var top5E = 0;
 
-    for (var key in $chineseCharacters) {
-        if ($chineseCharacters[key].chars.indexOf(familyName) != -1) {
-            topDrawCount = $chineseCharacters[key].draw;
+    for (var key in charDictionary) {
+        if (charDictionary[key].chars.indexOf(familyName) != -1) {
+            topDrawCount = charDictionary[key].draw;
             top5E = (topDrawCount + 1) % 10;
-            $(".familyName").html(familyName + get5EColor($chineseCharacters[key].fiveEle));
+            $(".familyName").html(familyName + get5EColor(charDictionary[key].fiveEle));
             $(".familyNameDrawCount").html(topDrawCount);
             break;
         }
     }
 
     var results = [];
-    for (var key in $sancai) {
-        if (key[0] == $sancaiKey[top5E] && $sancai[key].value >= 8) {
+    for (var key in sancaiTable) {
+        if (key[0] == SANCAI_ELEMENTS[top5E] && sancaiTable[key].value >= 8) {
             for (var middleCount = topDrawCount + 1; middleCount <= topDrawCount + 26; middleCount++) {
                 var middleFive = middleCount % 10;
-                if ($sancaiKey[middleFive] == key[1]) {
+                if (SANCAI_ELEMENTS[middleFive] == key[1]) {
                     var middleDrawCount = middleCount - topDrawCount;
                     for (var bottomCount = middleDrawCount + 1; bottomCount <= middleDrawCount + 26; bottomCount++) {
                         var bottomFive = bottomCount % 10;
-                        if ($sancaiKey[bottomFive] == key[2]) {
+                        if (SANCAI_ELEMENTS[bottomFive] == key[2]) {
                             var bottomDrawCount = bottomCount - middleDrawCount;
 
-                            var value = $81[topDrawCount + 1].value;
-                            value += $81[topDrawCount + middleDrawCount].value;
-                            value += $81[middleDrawCount + bottomDrawCount].value;
-                            value += $81[bottomDrawCount + 1].value;
-                            value += $81[topDrawCount + middleDrawCount + bottomDrawCount].value;
+                            var value = eightyOneMap[topDrawCount + 1].value;
+                            value += eightyOneMap[topDrawCount + middleDrawCount].value;
+                            value += eightyOneMap[middleDrawCount + bottomDrawCount].value;
+                            value += eightyOneMap[bottomDrawCount + 1].value;
+                            value += eightyOneMap[topDrawCount + middleDrawCount + bottomDrawCount].value;
                             value *= 2;
-                            if (value >= Math.min(Math.max(0, $quality), 100)) {
+                            if (value >= Math.min(Math.max(0, QUALITY_THRESHOLD), 100)) {
                                 results.push({
                                     "key": key,
                                     "value": value,
