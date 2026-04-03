@@ -24,6 +24,6 @@
 
 ## 4. 驗證
 
-- [ ] 4.1 確認 index.js 中無殘留舊變數名稱（`$81`、`$quality`、`$api_url`、`$sancaiKey`、`$pickWords`、`$chineseCharacters`、`$sancai`）
-- [ ] 4.2 確認 index.js 中無 `get81Content` 函式
-- [ ] 4.3 以姓氏「陳」、生肖「雞」測試，確認五格數值、三才結果、選字列表與重構前一致
+- [x] 4.1 確認 index.js 中無殘留舊變數名稱（`$81`、`$quality`、`$api_url`、`$sancaiKey`、`$pickWords`、`$chineseCharacters`、`$sancai`）
+- [x] 4.2 確認 index.js 中無 `get81Content` 函式
+- [x] 4.3 區塊順序驗證通過：常數與設定 → 核心演算法 → UI 渲染 → 事件處理 → 初始化
