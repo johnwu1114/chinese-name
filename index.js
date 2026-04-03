@@ -40,7 +40,7 @@ $(function () {
 
     $(this).on("change", "#combination", function () {
         if ($(this).val() == "") return;
-        var val = $.parseJSON($(this).val());
+        var val = JSON.parse($(this).val());
 
         selectedChars = [];
         for (var key in charDictionary) {
@@ -70,41 +70,8 @@ $(function () {
         renderResult("total", draw);
 
         $.get(API_URL + $("#zodiac").val() + ".json", function (data) {
-            $(".giveNameDrawCount1").html(val.middle);
-            $(".giveName1_better").html(getWordsOf5E(data.better["_" + val.middle]));
-            $(".giveName1_worse").html(getWordsOf5E(data.worse["_" + val.middle]));
-
-            var normal = "";
-            for (var key in charDictionary) {
-                if (charDictionary[key].draw === val.middle) {
-                    var chars = charDictionary[key].chars;
-                    var i = chars.length;
-                    while (i--) {
-                        if ((!data.better["_" + val.middle] || data.better["_" + val.middle].indexOf(chars[i]) == -1)
-                         && (!data.worse["_" + val.middle] || data.worse["_" + val.middle].indexOf(chars[i]) == -1))
-                            normal += chars[i];
-                    }
-                }
-            }
-            $(".giveName1_normal").html(getWordsOf5E(normal));
-
-
-            $(".giveNameDrawCount2").html(val.bottom);
-            $(".giveName2_better").html(getWordsOf5E(data.better["_" + val.bottom]));
-            $(".giveName2_worse").html(getWordsOf5E(data.worse["_" + val.bottom]));
-            var normal = "";
-            for (var key in charDictionary) {
-                if (charDictionary[key].draw === val.bottom) {
-                    var chars = charDictionary[key].chars;
-                    var i = chars.length;
-                    while (i--) {
-                        if ((!data.better["_" + val.bottom] || data.better["_" + val.bottom].indexOf(chars[i]) == -1)
-                         && (!data.worse["_" + val.bottom] || data.worse["_" + val.bottom].indexOf(chars[i]) == -1))
-                            normal += chars[i];
-                    }
-                }
-            }
-            $(".giveName2_normal").html(getWordsOf5E(normal));
+            renderNameChars(1, val.middle, data);
+            renderNameChars(2, val.bottom, data);
         });
     });
 
@@ -143,11 +110,27 @@ function renderResult(type, draw) {
     $("." + type + "DrawCount").html(draw);
     $("." + type + "5e").html(get5EColor((draw) % 10));
     $("." + type + "GoodOrbad").html(eightyOneMap[draw].text);
-    $("." + type + "Content").html(get81Content(draw));
+    $("." + type + "Content").html(eightyOneMap[draw].content);
 }
 
-function get81Content(draw) {
-    return eightyOneMap[draw].content;
+function renderNameChars(index, draw, zodiacData) {
+    $(".giveNameDrawCount" + index).html(draw);
+    $(".giveName" + index + "_better").html(getWordsOf5E(zodiacData.better["_" + draw]));
+    $(".giveName" + index + "_worse").html(getWordsOf5E(zodiacData.worse["_" + draw]));
+
+    var normal = "";
+    for (var key in charDictionary) {
+        if (charDictionary[key].draw === draw) {
+            var chars = charDictionary[key].chars;
+            var i = chars.length;
+            while (i--) {
+                if ((!zodiacData.better["_" + draw] || zodiacData.better["_" + draw].indexOf(chars[i]) == -1)
+                 && (!zodiacData.worse["_" + draw] || zodiacData.worse["_" + draw].indexOf(chars[i]) == -1))
+                    normal += chars[i];
+            }
+        }
+    }
+    $(".giveName" + index + "_normal").html(getWordsOf5E(normal));
 }
 
 function getWordsOf5E(chars) {

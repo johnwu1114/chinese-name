@@ -10,9 +10,9 @@
 
 ## 2. 消除重複與冗餘
 
-- [ ] 2.1 抽取名字第一字/第二字的重複渲染邏輯為 `renderNameChars(index, draw, zodiacData)` 共用函式
-- [ ] 2.2 移除 `get81Content` 函式，將呼叫處替換為 `eightyOneMap[draw].content`
-- [ ] 2.3 將 `$.parseJSON` 替換為 `JSON.parse`
+- [x] 2.1 抽取名字第一字/第二字的重複渲染邏輯為 `renderNameChars(index, draw, zodiacData)` 共用函式
+- [x] 2.2 移除 `get81Content` 函式，將呼叫處替換為 `eightyOneMap[draw].content`
+- [x] 2.3 將 `$.parseJSON` 替換為 `JSON.parse`
 
 ## 3. 區塊重組
 
