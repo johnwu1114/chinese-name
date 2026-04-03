@@ -1,35 +1,61 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## 基本設定
 
-## Project Overview
+- 回覆語言：繁體中文（台灣）
+- 口吻：專業、直接，不堆疊空話
 
-Chinese baby name generator (新生兒取名) — a static client-side web app that suggests Chinese names based on four naming methodologies:
-- **周易文字筆劃五行** (Five Elements stroke analysis)
-- **十二生肖姓名學** (Chinese Zodiac naming)
-- **81數理姓名學** (81 Numerology)
-- **五行三才姓名學** (Sancai / Three Talents)
+## 回覆結構
 
-## Running
+- 先結論，再理由、假設、風險與下一步
+- 簡單問題直接回答；複雜問題依序：結論→說明→適用情境→風險
+- 有比較時優先列出評估面向與取捨
+- 程式碼、指令、設定值用獨立區塊
 
-No build step. Open `index.html` in a browser or serve via any static file server (e.g. `python3 -m http.server`). The app fetches JSON data files from the GitHub Pages URL defined in `index.js` (`$api_url`).
+## 可靠性
 
-## Architecture
+- 引用事實、版本、法規時，標示是即時資訊或一般性知識
+- 答案依賴外部條件時，指出影響範圍
+- 無法驗證時標示為經驗判斷
 
-- **index.html** — Single-page UI built with jQuery 2.1.1 (loaded from CDN). Contains all markup and CSS inline.
-- **index.js** — All application logic. Key functions:
-  - `getCombinations(familyName)` — computes valid stroke-count combinations for a given surname using Sancai and 81 numerology scoring, filtered by `$quality` threshold
-  - `renderResult(type, draw)` — displays 81 numerology results for each of the five name positions (天格/人格/地格/外格/總格)
-  - `get5EColor(fiveEle)` — maps Five Elements values to colored HTML labels
-  - `getWordsOf5E(chars)` — annotates characters with their Five Element classification
+## 可選變體（對話中指定切換）
 
-### Data Files (JSON)
+- 教學型：多步驟、範例、常見錯誤
+- 顧問型：多判斷依據、取捨、風險
+- 技術型：多限制、假設、驗證方式
 
-- **ChineseCharacters.json** — Character dictionary with stroke counts (`draw`), Five Elements classification (`fiveEle`), and character lists (`chars`)
-- **Sancai.json** — Three Talents (三才) lookup table keyed by three-element combinations (e.g. "水木木"), with scores and descriptions
-- **EightyOne.json** — 81 numerology meanings, each with stroke count (`draw`), score (`value`), assessment (`text`), and description (`content`)
-- **{1-12}_{animal}.json** — Per-zodiac character recommendations with `better` (喜用) and `worse` (忌用) character lists keyed by stroke count (e.g. `"_8"`)
+---
 
-### Naming Algorithm
+## 專案概述
 
-The Five Elements cycle maps digit positions: `$sancaiKey = ["水","木","木","火","火","土","土","金","金","水"]`. The surname's stroke count determines its element, then `getCombinations` iterates possible middle/bottom stroke counts to find Sancai combinations scoring >= 8, further filtered by a composite 81 numerology score across all five positions (天格, 人格, 地格, 外格, 總格) against the `$quality` threshold (default 75).
+新生兒中文取名產生器 — 純前端靜態網頁，依據四種命名學產生建議名字：
+- **周易文字筆劃五行**
+- **十二生肖姓名學**
+- **81 數理姓名學**
+- **五行三才姓名學**
+
+## 啟動方式
+
+無建置步驟。瀏覽器開啟 `index.html` 或用靜態伺服器（如 `python3 -m http.server`）。資料檔從 `index.js` 中的 `$api_url`（GitHub Pages）載入。
+
+## 架構
+
+- **index.html** — 單頁 UI，使用 jQuery 2.1.1（CDN），標記與 CSS 皆內嵌
+- **index.js** — 全部應用邏輯，主要函式：
+  - `getCombinations(familyName)` — 根據三才與 81 數理計算合格筆劃組合，以 `$quality` 門檻過濾
+  - `renderResult(type, draw)` — 顯示五格（天格/人格/地格/外格/總格）的 81 數理結果
+  - `get5EColor(fiveEle)` — 五行值對應色標
+  - `getWordsOf5E(chars)` — 標註字元的五行分類
+
+### 資料檔（JSON）
+
+| 檔案 | 內容 |
+|---|---|
+| `ChineseCharacters.json` | 字典：筆劃數 `draw`、五行 `fiveEle`、字元列表 `chars` |
+| `Sancai.json` | 三才查詢表，鍵為三元素組合（如 `"水木木"`），含分數與說明 |
+| `EightyOne.json` | 81 數理意義：筆劃 `draw`、分數 `value`、評語 `text`、描述 `content` |
+| `{1-12}_{生肖}.json` | 各生肖喜用 `better` / 忌用 `worse` 字表，按筆劃分組（如 `"_8"`） |
+
+### 命名演算法
+
+五行對應表：`$sancaiKey = ["水","木","木","火","火","土","土","金","金","水"]`。姓氏筆劃決定其五行，`getCombinations` 遍歷中字/下字筆劃數，篩選三才分數 ≥ 8 的組合，再以五格的 81 數理綜合分數對照 `$quality` 門檻（預設 75）過濾。
