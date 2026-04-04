@@ -212,15 +212,15 @@ $(function () {
     $(this).on("change", "#zodiac", onZodiacChange);
     $(this).on("click", ".btnDisplay", onBtnDisplayClick);
 
-    $.get(API_URL + "ChineseCharacters.json", function (data) {
+    $.get(API_URL + "chinese-characters.json", function (data) {
         charDictionary = data;
     });
 
-    $.get(API_URL + "Sancai.json", function (data) {
+    $.get(API_URL + "sancai.json", function (data) {
         sancaiTable = data;
     });
 
-    $.get(API_URL + "EightyOne.json", function (data) {
+    $.get(API_URL + "eighty-one.json", function (data) {
         eightyOneMap = {};
         for (var key in data) {
             eightyOneMap[data[key].draw] = data[key];

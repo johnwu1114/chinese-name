@@ -36,13 +36,13 @@
 
 ## 啟動方式
 
-無建置步驟。瀏覽器開啟 `index.html` 或用靜態伺服器（如 `python3 -m http.server`）。資料檔從 `index.js` 中的 `$api_url`（GitHub Pages）載入。
+無建置步驟。瀏覽器開啟 `index.html` 或用靜態伺服器（如 `python3 -m http.server`）。資料檔從 `index.js` 中的 `API_URL`（GitHub Pages）載入。
 
 ## 架構
 
 - **index.html** — 單頁 UI，使用 jQuery 2.1.1（CDN），標記與 CSS 皆內嵌
 - **index.js** — 全部應用邏輯，主要函式：
-  - `getCombinations(familyName)` — 根據三才與 81 數理計算合格筆劃組合，以 `$quality` 門檻過濾
+  - `getCombinations(familyName)` — 根據三才與 81 數理計算合格筆劃組合，以 `QUALITY_THRESHOLD` 門檻過濾
   - `renderResult(type, draw)` — 顯示五格（天格/人格/地格/外格/總格）的 81 數理結果
   - `get5EColor(fiveEle)` — 五行值對應色標
   - `getWordsOf5E(chars)` — 標註字元的五行分類
@@ -51,11 +51,11 @@
 
 | 檔案 | 內容 |
 |---|---|
-| `ChineseCharacters.json` | 字典：筆劃數 `draw`、五行 `fiveEle`、字元列表 `chars` |
-| `Sancai.json` | 三才查詢表，鍵為三元素組合（如 `"水木木"`），含分數與說明 |
-| `EightyOne.json` | 81 數理意義：筆劃 `draw`、分數 `value`、評語 `text`、描述 `content` |
-| `{1-12}_{生肖}.json` | 各生肖喜用 `better` / 忌用 `worse` 字表，按筆劃分組（如 `"_8"`） |
+| `chinese-characters.json` | 字典：筆劃數 `draw`、五行 `fiveEle`（字形五行）、字元列表 `chars` |
+| `sancai.json` | 三才查詢表，鍵為三元素組合（如 `"水木木"`），含分數與說明 |
+| `eighty-one.json` | 81 數理意義：筆劃 `draw`、分數 `value`、評語 `text`、描述 `content` |
+| `{01-12}-{生肖}.json` | 各生肖喜用 `better` / 忌用 `worse` 字表，按筆劃分組（如 `"_8"`） |
 
 ### 命名演算法
 
-五行對應表：`$sancaiKey = ["水","木","木","火","火","土","土","金","金","水"]`。姓氏筆劃決定其五行，`getCombinations` 遍歷中字/下字筆劃數，篩選三才分數 ≥ 8 的組合，再以五格的 81 數理綜合分數對照 `$quality` 門檻（預設 75）過濾。
+五行對應表：`SANCAI_ELEMENTS = ["水","木","木","火","火","土","土","金","金","水"]`。姓氏筆劃決定其五行，`getCombinations` 遍歷中字/下字筆劃數，篩選三才分數 ≥ 8 的組合，再以五格的 81 數理綜合分數對照 `QUALITY_THRESHOLD` 門檻（預設 75）過濾。
