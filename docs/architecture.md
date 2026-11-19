@@ -18,17 +18,21 @@ repo 沒有後端服務或建置步驟。可用瀏覽器開啟 `index.html`，�
 
 | 函式 | 目前責任 |
 | ---- | ---- |
-| `getCombinations(familyName)` | 由姓氏字典筆劃、三才與 81 數理計算合格筆劃組合。找到姓氏時，也把姓氏、姓氏字形五行色標與姓氏筆劃寫入 `.familyName`、`.familyNameDrawCount`。 |
-| `get5EColor(fiveEle)` | 將五行文字或尾數轉成五行色標 HTML。 |
-| `getWordsOf5E(chars)` | 只保留出現在 `selectedChars` 的字，加上字形五行色標，再以「, 」串接。不在 `selectedChars` 的字不顯示。 |
-| `renderResult(type, draw)` | 顯示指定五格的筆劃、五行、81 數理評語及描述。 |
-| `renderNameChars(index, draw, zodiacData)` | 共用第一字與第二字的候選字渲染。分為喜用、忌用與不喜不忌。 |
-| `onFamilyNameChange()` | 重設組合選單，產生組合選項，依分數降序、中字及下字筆劃升序排列。 |
-| `onCombinationChange()` | 以中字與下字筆劃建立 `selectedChars`，更新三才與五格，再請求選定生肖資料並渲染兩字候選字。 |
-| `onZodiacChange()` | 觸發姓氏的 change 事件，重新計算並重設組合選單。它不請求生肖資料，畫面上的候選字維持舊生肖的結果，直到使用者重選組合。 |
+| `findFamilyName(familyName)` | 查找姓氏的字典資料。輸入為空或查無姓氏時回傳 `null`。 |
+| `getCombinations(familyName)` | 由姓氏字典筆劃、三才與 81 數理計算合格筆劃組合，不寫入 DOM。查無姓氏時回傳空陣列。任一格缺少 81 數理資料時略過該組合。 |
+| `get5EColor(fiveEle)` | 將五行文字或尾數轉成五行色標 HTML。無對應值時回傳空字串。 |
+| `getWordsOf5E(chars, draw)` | 只保留字典筆劃等於 `draw` 的字。每字只輸出一次，加上字形五行色標，再以「, 」串接。 |
+| `renderResult(type, draw)` | 顯示指定五格的筆劃與五行色標，以純文字插入 81 數理評語及描述。 |
+| `renderNameChars(index, draw, zodiacData)` | 共用第一字與第二字的候選字渲染。分為喜用、忌用與不喜不忌。不喜不忌字依字典原順序顯示。 |
+| `clearNameChars()` | 清空兩字筆劃與三類候選字。 |
+| `clearResults()` | 清空三才、五格與兩字候選區，保留姓氏與姓氏筆劃。 |
+| `onFamilyNameChange()` | 使舊生肖回應失效，清空結果並重建組合選單。找到姓氏時更新姓氏、色標與筆劃，產生組合選項，依分數降序、中字及下字筆劃升序排列。查無姓氏時顯示訊息。 |
+| `onCombinationChange()` | 使舊生肖回應失效並清空結果。選擇有效組合時更新三才與五格，以純文字插入三才評語及描述，再載入生肖資料並渲染兩字候選字。 |
+| `onZodiacChange()` | 保留組合選單。已選組合時，依新生肖更新兩字候選字；未選組合時不動作。 |
+| `loadZodiacData(combination)` | 遞增序號並清空候選區。以檔名快取已載入資料，共用同檔案的進行中請求。只讓最新序號的回應渲染候選字或顯示載入失敗訊息。 |
 | `onBtnDisplayClick()` | 切換按鈕所在列（不喜不忌或生肖忌用）的顯示狀態。生肖喜用列固定顯示。 |
 
-初始化綁定事件，並分別請求字典、三才及 81 數理資料。81 數理資料載入後，以 `draw` 建立 `eightyOneMap`。
+初始化綁定事件，並以 `$.getJSON` 分別請求字典、三才及 81 數理資料。81 數理資料載入後，以 `draw` 建立 `eightyOneMap`。三份資料全部成功後，才啟用姓氏、生肖與組合輸入。
 
 ## 3. 外部關係與資料流
 
@@ -41,26 +45,36 @@ flowchart TD
     js -->|"初始化：API_URL + 基礎 JSON"| remote
     remote --> base["字典、三才、81 數理"]
     base --> state["charDictionary、sancaiTable、eightyOneMap"]
-    js -->|"姓氏改變"| calc["getCombinations：筆劃組合"]
+    base -->|"全部成功"| ready["啟用三項輸入"]
+    ready --> html
+    base -->|"任一失敗"| error["顯示錯誤、維持停用"]
+    error --> html
+    js -->|"姓氏改變"| family["onFamilyNameChange：查姓氏、清空結果"]
+    family --> calc["getCombinations：筆劃組合"]
     state --> calc
-    calc -->|"組合選項、姓氏與姓氏筆劃"| html
-    js -->|"組合改變"| combo["onCombinationChange：selectedChars、三才、五格"]
+    family -->|"姓氏與筆劃、查無訊息"| html
+    calc -->|"組合選項"| html
+    js -->|"組合改變"| combo["onCombinationChange：三才、五格"]
     state --> combo
-    combo -->|"API_URL + 生肖 JSON"| remote
+    combo --> loader["loadZodiacData：序號、快取"]
+    js -->|"切換生肖且已選組合"| loader
+    loader -->|"未快取：API_URL + 生肖 JSON，同檔案進行中則共用"| remote
     remote --> zodiac["選定生肖 JSON"]
-    zodiac --> render["renderNameChars：兩字候選字"]
-    combo --> render
+    zodiac -->|"存入快取，最新序號才渲染"| render["renderNameChars：兩字候選字"]
+    loader -->|"已快取"| render
     combo -->|"三才與五格"| html
     render --> html
 ```
 
-圖說：初始化時，腳本從 `API_URL` 載入三份基礎資料。使用者改變姓氏時，`getCombinations` 產生組合選項。使用者選擇組合時，腳本更新三才與五格，再載入選定生肖資料並渲染候選字。`API_URL` 的內容由 `master` 分支發佈。圖中分組是資料職責，不代表額外服務。
+圖說：初始化時，腳本從 `API_URL` 載入三份基礎資料。全部成功後才啟用輸入。使用者改變姓氏時，腳本清空結果並重建組合選單。使用者選擇組合時，腳本更新三才與五格，再載入選定生肖資料。切換生肖保留組合，只更新候選字。生肖資料以檔名快取，舊序號回應不更新畫面。`API_URL` 的內容由 `master` 分支發佈。圖中分組是資料職責，不代表額外服務。
 
 `API_URL` 在程式內固定為 `https://johnwu1114.github.io/chinese-name/`。初始化及生肖查詢都將檔名接在此網址後方，不使用頁面所在目錄作為 JSON 來源。
 
 因此，本機預覽也不讀取本地 JSON。資料修改要 push 到 `master`，並由 GitHub Pages 發佈後，才會反映在畫面上。發佈來源與查核日期見[工作流程](workflow.md#3-交付與發佈)。
 
-jQuery 使用通訊協定相對的 CDN URL。直接以檔案開啟頁面時，須另確認 CDN 是否能載入。三份基礎資料各自非同步載入；程式沒有等待全部完成再啟用輸入，也沒有 JSON 請求失敗處理。驗證時須先確認請求成功。
+jQuery 使用 HTTPS CDN URL。頁面初始停用姓氏、生肖與組合輸入，`#status` 顯示載入中訊息。三份基礎資料各自非同步載入，程式以 `$.when` 等待全部成功後才啟用輸入並清除訊息。任一失敗時，`#status` 顯示錯誤訊息，輸入維持停用。生肖資料也使用 `$.getJSON`。最新生肖請求失敗時，候選區保持清空，`#status` 提示重新選擇組合；重選組合會重新請求。
+
+表單只有姓氏一個文字欄位，按 Enter 會觸發表單送出。程式攔截 `submit` 事件，避免頁面重新整理。姓氏輸入先去除前後空白再查字典。
 
 ## 4. 資料檔與命名演算法
 
@@ -75,9 +89,9 @@ jQuery 使用通訊協定相對的 CDN URL。直接以檔案開啟頁面時，�
 
 `SANCAI_ELEMENTS` 的索引 0 至 9 依序是水、木、木、火、火、土、土、金、金、水。`getCombinations` 先在字典中查姓氏筆劃，再以姓氏筆劃加一的尾數選天格五行。函式只考慮三才分數至少 8 的組合，並遍歷各為 1 至 26 劃的中字與下字。
 
-設姓氏、中字、下字筆劃為 A、B、C，五格筆劃依序是天格 A+1、人格 A+B、地格 B+C、外格 C+1、總格 A+B+C。將五格的 81 數理分數相加後乘 2，得到綜合分數。程式將 `QUALITY_THRESHOLD` 限制於 0 至 100，再保留達到門檻的組合；預設門檻是 75。
+設姓氏、中字、下字筆劃為 A、B、C，五格筆劃依序是天格 A+1、人格 A+B、地格 B+C、外格 C+1、總格 A+B+C。任一格在 `eightyOneMap` 查無資料時，程式略過該組合。將五格的 81 數理分數相加後乘 2，得到綜合分數。程式將 `QUALITY_THRESHOLD` 限制於 0 至 100，再保留達到門檻的組合；預設門檻是 75。
 
-畫面輸入限制姓氏最多一個字。程式未提供複姓流程。字典查無姓氏時，程式不顯示錯誤，改以姓氏筆劃 0、天格五行「水」繼續計算組合；畫面上的姓氏與姓氏筆劃保留前一次的值。本文描述實作行為，不驗證姓名學的有效性。
+畫面輸入限制姓氏最多一個字。程式未提供複姓流程。字典查無姓氏時，程式顯示「查無此姓氏」，組合選單只保留空值的「請選擇」，並清空所有結果。找到姓氏時，程式清除訊息並更新姓氏與筆劃。姓氏改變或清空時，程式清空下游結果；清空姓氏也會清空姓氏與筆劃。組合選回「請選擇」時，程式清空三才、五格與兩字候選區。本文描述實作行為，不驗證姓名學的有效性。
 
 ## 5. 相關正本
 
