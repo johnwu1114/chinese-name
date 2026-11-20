@@ -10,6 +10,6 @@
 | 2026-11-19 | [fix-data-junk](plans/2026-11-19-fix-data-junk.md) | 已完成 | 刪除字典零寬空白，三才孤立句併回「土金水」 | [慣例：字形五行](../conventions.md#21-字形五行)、[現況架構：資料檔](../architecture.md#4-資料檔與命名演算法) |
 | 2026-11-19 | [kangxi-strokes](plans/2026-11-19-kangxi-strokes.md) | 已完成 | 字典與生肖表改用康熙筆劃，刪除簡體殘字；含待審清單 | [ADR 0001](../adr/0001-kangxi-stroke-standard.md)、[慣例：筆劃](../conventions.md#23-筆劃) |
 | 2026-11-19 | [traditional-charset](plans/2026-11-19-traditional-charset.md) | 已完成 | 字庫以 Big5 正體為準：轉正體、刪非 Big5 字、補生肖缺字與大姓；含五行待審清單 | [ADR 0002](../adr/0002-traditional-charset.md)、[慣例：字庫範圍](../conventions.md#24-字庫範圍) |
-| 2026-11-20 | [stroke-wuxing-verification](plans/2026-11-20-stroke-wuxing-verification.md) | 已完成 | 以康熙字典網上版全量校驗筆畫、兩個網站抽樣校驗五行；修訂例外表，改 7 字筆畫與 2 字五行 | [ADR 0001](../adr/0001-kangxi-stroke-standard.md)、[慣例：筆劃](../conventions.md#23-筆劃) |
+| 2026-11-20 | [stroke-wuxing-verification](plans/2026-11-20-stroke-wuxing-verification.md) | 已完成 | 以康熙字典網上版全量校驗筆畫、兩個網站抽樣校驗五行；待審項經 codex 與 Gemini Argon 四輪討論；例外表加入搜與妍，訂出增刪門檻，3 字改五行 | [ADR 0001](../adr/0001-kangxi-stroke-standard.md)、[慣例：筆劃](../conventions.md#23-筆劃) |
 
 2026-04-03 與 2026-04-04 兩項原本以 OpenSpec 格式記錄（proposal、design、tasks、specs）。2026-11-19 移除 OpenSpec 時原樣移入，內容未改寫；其中的 `openspec/` 路徑與 `/opsx:*` 指令已不存在。
