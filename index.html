@@ -1,4 +1,5 @@
-﻿<html>
+<!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="utf-8">
@@ -39,36 +40,41 @@
         .hide {
             display: none;
         }
+
+        #status {
+            min-height: 1.5em;
+        }
     </style>
 </head>
 
 <body>
+    <div id="status" role="status" aria-live="polite"></div>
     <form>
         <div>
             <label>姓氏</label>
-            <input id="familyName" value="" maxlength="1" style="width: 50px;" />
+            <input disabled="disabled" id="familyName" value="" maxlength="1" style="width: 50px;" />
         </div>
         <div>
             <label>生肖</label>
-            <select id="zodiac" style="width: 50px;">
-            <option value="1_rat">鼠</option>
-            <option value="2_ox">牛</option>
-            <option value="3_tiger">虎</option>
-            <option value="4_rabbit">兔</option>
-            <option value="5_dragon">龍</option>
-            <option value="6_snake">蛇</option>
-            <option value="7_horse">馬</option>
-            <option value="8_goat">羊</option>
-            <option value="9_monkey">猴</option>
-            <option value="10_rooster" selected="selected">雞</option>
-            <option value="11_dog">狗</option>
-            <option value="12_pig">豬</option>
+            <select disabled="disabled" id="zodiac" style="width: 50px;">
+            <option value="01-rat">鼠</option>
+            <option value="02-ox">牛</option>
+            <option value="03-tiger">虎</option>
+            <option value="04-rabbit">兔</option>
+            <option value="05-dragon">龍</option>
+            <option value="06-snake">蛇</option>
+            <option value="07-horse">馬</option>
+            <option value="08-goat">羊</option>
+            <option value="09-monkey">猴</option>
+            <option value="10-rooster" selected="selected">雞</option>
+            <option value="11-dog">狗</option>
+            <option value="12-pig">豬</option>
         </select>
         </div>
         <div>
             <label>分數</label>
-            <select id="combination">
-            <option>請選擇</option>
+            <select disabled="disabled" id="combination">
+            <option value="">請選擇</option>
         </select>
         </div>
     </form>
@@ -140,19 +146,19 @@
             </td>
             <td>生肖喜用</td>
             <td>
-                <span class="giveName1_better" />
+                <span class="giveName1_better"></span>
             </td>
         </tr>
         <tr>
             <td>不喜不忌 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
             <td>
-                <span class="giveName1_normal hide" />
+                <span class="giveName1_normal hide"></span>
             </td>
         </tr>
         <tr>
             <td>生肖忌用 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
             <td>
-                <span class="giveName1_worse hide" />
+                <span class="giveName1_worse hide"></span>
             </td>
         </tr>
         <tr>
@@ -162,19 +168,19 @@
             </td>
             <td>生肖喜用</td>
             <td>
-                <span class="giveName2_better" />
+                <span class="giveName2_better"></span>
             </td>
         </tr>
         <tr>
             <td>不喜不忌 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
             <td>
-                <span class="giveName2_normal hide" />
+                <span class="giveName2_normal hide"></span>
             </td>
         </tr>
         <tr>
             <td>生肖忌用 <a class="btnDisplay" href="javascript:void(0);">顯示</a></td>
             <td>
-                <span class="giveName2_worse hide" />
+                <span class="giveName2_worse hide"></span>
             </td>
         </tr>
     </table>
@@ -193,7 +199,7 @@
                 <span class="sancaiGoodOrbad"></span>
             </td>
             <td>
-                <span class="sancaiContent" />
+                <span class="sancaiContent"></span>
             </td>
         </tr>
     </table>
@@ -212,7 +218,7 @@
                 <span class="topGoodOrbad"></span>
             </td>
             <td>
-                <span class="topContent" />
+                <span class="topContent"></span>
             </td>
         </tr>
         <tr>
@@ -223,7 +229,7 @@
                 <span class="middleGoodOrbad"></span>
             </td>
             <td>
-                <span class="middleContent" />
+                <span class="middleContent"></span>
             </td>
         </tr>
         <tr>
@@ -234,7 +240,7 @@
                 <span class="bottomGoodOrbad"></span>
             </td>
             <td>
-                <span class="bottomContent" />
+                <span class="bottomContent"></span>
             </td>
         </tr>
         <tr>
@@ -245,7 +251,7 @@
                 <span class="outGoodOrbad"></span>
             </td>
             <td>
-                <span class="outContent" />
+                <span class="outContent"></span>
             </td>
         </tr>
         <tr>
@@ -256,7 +262,7 @@
                 <span class="totalGoodOrbad"></span>
             </td>
             <td>
-                <span class="totalContent" />
+                <span class="totalContent"></span>
             </td>
         </tr>
     </table>
@@ -272,7 +278,7 @@
     選字完成後，可用其他免費 App 驗證：
     <a href="https://itunes.apple.com/tw/app/qi-ming-jie-ming-bb-qu-ming/id598551046?l=zh" target="_blank">起名解名 (iPhone)</a>,
     <a href="https://play.google.com/store/apps/details?id=oms.mmc.fortunetelling.measuringtools.gmpay.nametest&hl=zh_TW" target="_blank">起名解名 (Android)</a>
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="index.js"></script>
 </body>
 
